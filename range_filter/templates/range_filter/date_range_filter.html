@@ -1,0 +1,33 @@
+{% load i18n admin_static %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/widgets.css" %}" />
+<style>
+    .calendarbox, .clockbox {
+        /* Make sure the calendar widget popover displays in front of the sidebar */
+        z-index: 1100;
+        margin-left: -251px;
+    }
+    .datetimeshortcuts a{
+        /* Make text for "Today" a bit smaller so it appears on one line. */
+        font-size: 8pt;
+    }
+</style>
+<script type="text/javascript">
+  if (typeof gettext == 'undefined') {
+    document.write("<script type='text/javascript' src='/admin/jsi18n/'><\/script>");
+  }
+  if (typeof DateTimeShortcuts == 'undefined') {
+    document.write("<script type='text/javascript' src='/static/admin/js/calendar.js'>" +
+        "<\/script><script type='text/javascript' src='/static/admin/js/admin/DateTimeShortcuts.js'><\/script>");
+  }
+</script>
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<form method="GET" action="">
+  {% for choice in choices %}
+  <input type="hidden" name="{{ choice.name }}" value="{{ choice.value }}" />
+  {% endfor %}
+
+  {{ spec.form.as_p }}
+  <p>
+    <input type="submit" value="{% trans "Search" %}">
+  </p>
+</form>
